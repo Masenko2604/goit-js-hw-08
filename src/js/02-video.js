@@ -1,30 +1,23 @@
 import Player from '@vimeo/player';
 import throttle from 'lodash.throttle';
 
+// Отримуємо відеоелемент
+const videoPlayer = document.getElementById('vimeo-player');
 
-const current_time_kea = 'videoplayer-current-time';
+// Перевіряємо, чи підтримує браузер локальне сховище
+if (typeof(Storage) !== "undefined") {
+  // Встановлюємо обробник події timeupdate, щоб оновлювати час відтворення
+  videoPlayer.addEventListener('timeupdate', _.throttle(function() {
+    // Оновлюємо поточний час відтворення у локальному сховищі
+    localStorage.setItem('videoplayer-current-time', videoPlayer.currentTime);
+  }, 1000)); // Викликаємо функцію не частіше, ніж раз на секунду
 
-const iframe = document.querySelector('iframe');
-const player = new Player(iframe, {
-  loop: true,
-  fullscreen: true,
-  quality: '1080p',
-});
-
-const getCurrentTime = function (currentTime) {
-  const seconds = currentTime.seconds;
-  localStorage.setItem(current_time_kea, JSON.stringify(seconds));
-};
-
-player.on('timeupdate', throttle(getCurrentTime, 1000));
-
-player.setCurrentTime(JSON.parse(localStorage.getItem(current_time_kea)) || 0);
-
-player
-  .setColor('#d8e0ff')
-  .then(function (color) {
-    console.log('The new color value: #D8E0FF');
-  })
-  .catch(function (error) {
-    console.log('An error occurred while setting the color');
-  });
+  // Перевіряємо, чи є збережений час відтворення
+  const currentTime = localStorage.getItem('videoplayer-current-time');
+  if (currentTime) {
+    // Відновлюємо відтворення з збереженого часу
+    videoPlayer.currentTime = currentTime;
+  }
+} else {
+  alert('Ваш браузер не підтримує локальне сховище.');
+}

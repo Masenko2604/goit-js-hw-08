@@ -1,40 +1,26 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
   <meta charset="UTF-8" />
-  <title>Vimeo Player</title>
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      var videoPlayer = document.getElementById('vimeo-player');
-      var storedTime = localStorage.getItem('videoTime');
-
-      if (storedTime) {
-        videoPlayer.currentTime = storedTime;
-      }
-
-      videoPlayer.addEventListener('timeupdate', function () {
-        localStorage.setItem('videoTime', videoPlayer.currentTime);
-      });
-    });
-  </script>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Video playback</title>
+  <link rel="stylesheet" href="css/common.css" />
 </head>
 
 <body>
-  <iframe id="vimeo-player"
-   src="https://player.vimeo.com/video/236203659"
-    width="640"
-     height="360"
-      frameborder="0"
-    allowfullscreen allow="autoplay; encrypted-media">
+  <p>
+    <a class="main-link" href="index.html">Go back</a>
+  </p>
+
+  <iframe id="vimeo-player" 
+  src="https://player.vimeo.com/video/236203659" 
+  width="640" height="360" 
+  frameborder="0"
+    allowfullscreen 
+    allow="autoplay; encrypted-media">
   </iframe>
-  <script>
-    window.addEventListener('unload', function () {
-      var videoPlayer = document.getElementById('vimeo-player');
-      localStorage.setItem('videoTime', videoPlayer.currentTime);
-    });
-  </script>
 
   <script src="js/02-video.js" type="module"></script>
 </body>
