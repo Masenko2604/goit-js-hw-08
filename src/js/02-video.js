@@ -1,18 +1,32 @@
 import Player from '@vimeo/player';
 import throttle from 'lodash.throttle';
-const videoPlayer = document.getElementById('vimeo-player');
 
-if (typeof(Storage) !== "undefined") {
- 
-  videoPlayer.addEventListener('timeupdate', throttle(function() {
-    
-    localStorage.setItem('videoplayer-current-time', videoPlayer.currentTime);
-  }, 1000));  
-  const currentTime = localStorage.getItem('videoplayer-current-time');
-  if (currentTime) {
+const iframe = document.querySelector('iframe');
+const player = new Player(iframe);
+
+const onPlay = function (data) {
+    localStorage.setItem('videoplayer-current-time', data.seconds);
+};
+
+player.on('timeupdate', throttle(onPlay, 1000));
+
+const currentTime = Number(localStorage.getItem('videoplayer-current-time'));
+
+player.setCurrentTime(currentTime).then(function (seconds) {
+
+}).catch(function (error) {
+    switch (error.name) {
+        case 'RangeError':
+          
+            break;
+        default:
+           
+            break;
+    }
+});
+
+player.setColor('#45a247').then(function (color) {
    
-    videoPlayer.currentTime = videoPlayer.setCurrentTime(currentTime);
-  }
-} else {
-  alert('Ваш браузер не підтримує локальне сховище.');
-}
+}).catch(function (error) {
+    
+});
