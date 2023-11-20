@@ -28,10 +28,9 @@ function populateFeedbackForm() {
   let data = localStorage.getItem(LOCAL_KEY);
   if (!data) return;
   data = JSON.parse(data);
-  // Object.entries(data).forEach(([name, value]) => {
-  //   form.elements[name].value = value || '';
-  // });
+  
   for (const key in data) {
     form.elements[key].value = data[key] || '';
   }
 }
+
